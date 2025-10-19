@@ -8,76 +8,93 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var goal = "Week"
-    @State private var selectedDuration: String = ""
+    @State private var goal = ""
+    @State private var selectedDuration: String = "Week"
     
     var body: some View {
-        VStack{
-            ZStack{
-                Button("􀙭"){
-                    
-                }
-                .frame(width: 109, height: 109)
-                .background(Color.color1)
-                .clipShape(Circle())
-                .glassEffect()
-                
-//                Image("fire")
-//                    .frame(width: 109, height: 109)
-//                    .background(Color.horange)
-//                    .clipShape(Circle())
-//
-//                    .padding()
-                
-
-                
-            }
-            .padding()
+        
+        
             
-            VStack(alignment: .leading , spacing: 16 ) {
-                
-                Text("Hello Learner")
-                    .font(.system(size: 34, weight: .bold, design: .default))
+            VStack(alignment: .leading){
                 
                 
-                Text("This app will help you learn everyday!")
-                    .font(.body)
-                    .foregroundColor(.secondary)
+                //z
+                ZStack{
+                    Image("fire")
+                        .frame(width: 109, height: 109)
+                        .background(Color.color1)
+                        .clipShape(Circle())
+                        .glassEffect()
+                }
+                .frame(maxWidth: .infinity)
+
+                VStack(alignment: .leading, spacing: 16 ) {
+                    
+                    Text("Hello Learner")
+                        .font(.system(size: 34, weight: .bold, design: .default))
+                    
+                    
                 
-                Text("I want to learn ")
-                
-                TextField("Swift", text: .constant(""))
-                    .textFieldStyle(.roundedBorder)
-                    .frame(width: 393, height: 48)
-                    .padding()
-                Text("I want to learn it in a")
-                
-                HStack(spacing: 16) {
-                    ForEach(["Week", "Month", "Year"], id: \.self) { duration in
-                        Button(duration) {
-                            selectedDuration = duration
+                    Text("This app will help you learn everyday!")
+                        .font(Font.system(size: 17, weight: .regular, design: .default))
+                        .foregroundColor(.secondary)
+                    
+                    Text("I want to learn ")
+                        .font(Font.system(size: 22, weight: .regular, design: .default))
+                    
+                    
+                    TextField("Swift", text: .constant(""))
+                        .textFieldStyle(.roundedBorder)
+                        
+                        .frame(width: 393, height: 48)
+                        
+                        
+                    
+                    Text("I want to learn it in a")
+                        .font(Font.system(size: 22, weight: .regular, design: .default))
+                        
+
+                    HStack(spacing: 16) {
+                        ForEach(["Week", "Month", "Year"], id: \.self) { duration in
+                            Button(duration) {
+                                selectedDuration = duration
+                            }
+                            .frame(width: 97, height: 48)
+                            .background(selectedDuration == duration ? Color.hOrange : Color.hGray.opacity(0.1))
+                            .foregroundColor(.white)
+                            .cornerRadius(30)
+                            .glassEffect()
                         }
-                        .frame(width: 97, height: 48)
-                        .background(selectedDuration == duration ? Color.hOrange : Color.hGray.opacity(0.1))
+                    }
+                    
+                    
+                    
+                    
+                }//v
+                
+                
+                
+                
+                Spacer()
+                  
+                VStack{
+                    Button ("Start learning"){}
+                        .frame(width: 182, height: 48)
+                        .background(Color.hOrange)
                         .foregroundColor(.white)
                         .cornerRadius(30)
                         .glassEffect()
-                    }
-                }
-            }
-                Spacer()
-                
-                    .padding()
-                
-                Button ("Start learning"){}
-                    .frame(width: 182, height: 48)
-                    .background(Color.hOrange)
-                    .foregroundColor(.white)
-                    .cornerRadius(30)
-                    .glassEffect()
+                }//v
+                .frame(maxWidth: .infinity)
                 
                 
-            }
+                
+               
+            }//v
+            .padding()
+            
+            
+     
         }
     }
 
