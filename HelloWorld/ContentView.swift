@@ -28,13 +28,13 @@ struct ContentView: View {
                         .clipShape(Circle())
                         .glassEffect()
                 }
+                
                 .frame(maxWidth: .infinity)
 
                 VStack(alignment: .leading, spacing: 16 ) {
                     
                     Text("Hello Learner")
                         .font(.system(size: 34, weight: .bold, design: .default))
-                    
                     
                 
                     Text("This app will help you learn everyday!")
@@ -45,11 +45,11 @@ struct ContentView: View {
                         .font(Font.system(size: 22, weight: .regular, design: .default))
                     
                     
-                    TextField("Swift", text: .constant(""))
+                    TextField("Swift", text: $goal)
                         .textFieldStyle(.roundedBorder)
-                        
                         .frame(width: 393, height: 48)
                         
+                    Main(goal: $goal)
                         
                     
                     Text("I want to learn it in a")
@@ -65,7 +65,7 @@ struct ContentView: View {
                             .background(selectedDuration == duration ? Color.hOrange : Color.hGray.opacity(0.1))
                             .foregroundColor(.white)
                             .cornerRadius(30)
-                            .glassEffect(.clear.interactive())
+                            .glassEffect(.clear)
                         }
                     }
                     
@@ -78,7 +78,9 @@ struct ContentView: View {
                 Spacer()
                   
                 VStack{
-                    Button ("Start learning"){}
+                    Button ("Start learning"){
+//                        Main()
+                    }
                         .frame(width: 182, height: 48)
                         .background(Color.hOrange)
                         .foregroundColor(.white)

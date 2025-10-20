@@ -7,9 +7,12 @@
 import SwiftUI
 
 struct Main: View {
-    @State private var daysLearned: Int = 0
-    @State private var daysFreezed: Int = 0
-    @State private var isOn: Bool = false
+    @AppStorage("daysLearned") private var daysLearned: Int = 0
+    @AppStorage("daysFreezed") private var daysFreezed: Int = 0
+    @AppStorage("lastCheckedDate") private var lastCheckedDate: String = ""
+    @State private var isSelected: Bool  = false
+    @Binding var goal : String  //gets the binding from parent
+//    @State private var isOn: Bool = false
   
     var body: some View {
         NavigationStack{
@@ -22,45 +25,42 @@ struct Main: View {
                         HStack(alignment: .center, spacing: 13){
                             
                             HStack{
+                                Text("\(goal)")
                                 Image(systemName: "flame.fill")
-                                    .foregroundColor(Color.red)
+                                    .foregroundColor(Color.orange)
                                     .font(.system(size: 20))
-                                VStack{
-                                    Text("/*\(daysLearned)*/")
+                                VStack(alignment: .leading){
+                                    Text("\(daysLearned)")
                                         .font(.system(size: 24, weight: .semibold))
                                         .foregroundColor(.white)
                                     Text(" Days Learned")
                                         .font(.system(size: 12))
                                         .foregroundColor(.white)
-                                }
+                                }// v for Learned days viewer
                                 
-                            }//H for Days Learned
+                            }//H for Learned days viewer
                             .frame(width: 160, height: 69)
-                            .background(Color.darkOrange)
+                            .background(Color.orange.opacity(0.3))
                             .clipShape(Capsule())
-                            .glassEffect()
                             
                             
                             HStack{
-                                Image(systemName: "flame.fill")
-                                    .foregroundColor(Color.red)
+                                Image(systemName: "cube.fill")
+                                    .foregroundColor(Color.l)
                                     .font(.system(size: 20))
-                                VStack{
-                                    Text("/*\(daysLearned)*/")
+                                VStack(alignment: .leading){
+                                    Text("\(daysFreezed)")
                                         .font(.system(size: 24, weight: .semibold))
                                         .foregroundColor(.white)
                                     Text(" Days Freezed")
                                         .font(.system(size: 12))
                                         .foregroundColor(.white)
-                                }
+                                }// v for freezed days viewer
                                 
-                            }//H for Days Freezed
+                            }//H v for freezed days viewer
                             .frame(width: 160, height: 69)
                             .background(Color.darkBlue1)
                             .clipShape(Capsule())
-                            .glassEffect()
-                            
-                            
                             
                             
                         }//H for c and Day Freezed
@@ -68,22 +68,29 @@ struct Main: View {
                         .frame(width: 333, height: 69)
                         
                         
-                    }//z for calender and stuff
+                    }//v for the calender and stuff
+                    
                     .padding()
                     
-                }
+                }//z for calender and stuff
                 
                 
-                Button(action:{}){
-                   Text("Log as Learned")
+                //logged Button
+                Button(action: addDayOncePerDay ){
+                    
+                    Text(canAddToday ? "Log as Learned" :"Learned Today")
                         .font(.system(size: 36, weight: .bold))
-                        .foregroundColor(.white)
-                }//logged Button
-                
+                        .foregroundColor(canAddToday ? .white : .orange)
+                }//Log as Learned button
+                .disabled(!canAddToday)
+                .padding()
                 .frame(width: 274, height: 274)
-                .background(Color.hOrange)
+                .background(canAddToday ? Color.hOrange : Color.logo)
+                .foregroundColor(Color.orange)
+//                .background(Color.hOrange )
                 .clipShape(Circle())
-                .glassEffect()
+                
+                .glassEffect(.clear)
 
                 Spacer()
                 Button("Log as Freezed"){
@@ -106,14 +113,14 @@ struct Main: View {
                 ToolbarItem(){
                     Button("Calender",systemImage: "calendar"){
                         
-                    }//calender
+                    }//calender Button
                 }//toolbaritem
                 ToolbarSpacer()
                 
                 ToolbarItem(){
                     Button("Calender",systemImage: "pencil.and.outline"){
                         
-                    }//Editer
+                    }//Edit Button
                     
                 }//toolbaritem
                 
@@ -121,13 +128,34 @@ struct Main: View {
             }//v
                 
                 
-                
-                
         }//navigationstack
         
     }//body
+    
+    
+    //check if the user can click today
+    private var canAddToday: Bool {
+        let today = formattedDate(Date())
+        return lastCheckedDate != today
+    }
+    
+    // learned days counter function
+    private func addDayOncePerDay() {
+        let today = formattedDate(Date())
+        if lastCheckedDate != today {
+            daysLearned += 1
+            lastCheckedDate = today
+        }
+    }
+    
+    private func formattedDate(_ date: Date) -> String {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            return formatter.string(from: date)
+        }
+    
 }
 #Preview{
-    Main()
+    ContentView()
 }
 
