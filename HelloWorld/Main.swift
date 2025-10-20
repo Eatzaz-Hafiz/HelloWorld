@@ -7,10 +7,73 @@
 import SwiftUI
 
 struct Main: View {
+    @State private var daysLearned: Int = 0
+    @State private var daysFreezed: Int = 0
+    @State private var isOn: Bool = false
   
     var body: some View {
         NavigationStack{
             VStack{
+                ZStack{
+                    RoundedRectangle(cornerRadius: 12)
+                        .strokeBorder(.ultraThinMaterial,lineWidth: 2)
+                        .frame(width: 365, height: 254)
+                    VStack{
+                        HStack(alignment: .center, spacing: 13){
+                            
+                            HStack{
+                                Image(systemName: "flame.fill")
+                                    .foregroundColor(Color.red)
+                                    .font(.system(size: 20))
+                                VStack{
+                                    Text("/*\(daysLearned)*/")
+                                        .font(.system(size: 24, weight: .semibold))
+                                        .foregroundColor(.white)
+                                    Text(" Days Learned")
+                                        .font(.system(size: 12))
+                                        .foregroundColor(.white)
+                                }
+                                
+                            }//H for Days Learned
+                            .frame(width: 160, height: 69)
+                            .background(Color.darkOrange)
+                            .clipShape(Capsule())
+                            .glassEffect()
+                            
+                            
+                            HStack{
+                                Image(systemName: "flame.fill")
+                                    .foregroundColor(Color.red)
+                                    .font(.system(size: 20))
+                                VStack{
+                                    Text("/*\(daysLearned)*/")
+                                        .font(.system(size: 24, weight: .semibold))
+                                        .foregroundColor(.white)
+                                    Text(" Days Freezed")
+                                        .font(.system(size: 12))
+                                        .foregroundColor(.white)
+                                }
+                                
+                            }//H for Days Freezed
+                            .frame(width: 160, height: 69)
+                            .background(Color.darkBlue1)
+                            .clipShape(Capsule())
+                            .glassEffect()
+                            
+                            
+                            
+                            
+                        }//H for c and Day Freezed
+                        .frame(maxWidth: .infinity)
+                        .frame(width: 333, height: 69)
+                        
+                        
+                    }//z for calender and stuff
+                    .padding()
+                    
+                }
+                
+                
                 Button(action:{}){
                    Text("Log as Learned")
                         .font(.system(size: 36, weight: .bold))
@@ -36,7 +99,7 @@ struct Main: View {
                     .font(Font.system(size: 14))
                     .foregroundColor(.gray)
                 
-            }//v
+            }//v for the whole interface
             .navigationTitle("Activity")
             .toolbarTitleDisplayMode(.inlineLarge)
             .toolbar{
@@ -55,10 +118,14 @@ struct Main: View {
                 }//toolbaritem
                 
                 
-            }//toobar
+            }//v
+                
+                
+                
+                
         }//navigationstack
         
-    }
+    }//body
 }
 #Preview{
     Main()

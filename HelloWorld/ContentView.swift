@@ -20,9 +20,11 @@ struct ContentView: View {
                 
                 //z
                 ZStack{
-                    Image("fire")
+                    Image(systemName: "flame.fill")
+                        .font(.system(size: 43))
+                        .foregroundColor(Color.orange)
                         .frame(width: 109, height: 109)
-                        .background(Color.color1)
+                        .background(Color.logo)
                         .clipShape(Circle())
                         .glassEffect()
                 }
@@ -63,11 +65,9 @@ struct ContentView: View {
                             .background(selectedDuration == duration ? Color.hOrange : Color.hGray.opacity(0.1))
                             .foregroundColor(.white)
                             .cornerRadius(30)
-                            .glassEffect()
+                            .glassEffect(.clear.interactive())
                         }
                     }
-                    
-                    
                     
                     
                 }//v
@@ -83,7 +83,7 @@ struct ContentView: View {
                         .background(Color.hOrange)
                         .foregroundColor(.white)
                         .cornerRadius(30)
-                        .glassEffect()
+                        .glassEffect(.clear)
                 }//v
                 .frame(maxWidth: .infinity)
                 
