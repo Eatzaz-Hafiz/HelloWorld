@@ -13,10 +13,9 @@ struct ContentView: View {
     
     var body: some View {
         
-        
+        NavigationStack{
             
             VStack(alignment: .leading){
-                
                 
                 //z
                 ZStack{
@@ -30,13 +29,13 @@ struct ContentView: View {
                 }
                 
                 .frame(maxWidth: .infinity)
-
-                VStack(alignment: .leading, spacing: 16 ) {
+                
+                VStack(alignment: .leading) {
                     
                     Text("Hello Learner")
                         .font(.system(size: 34, weight: .bold, design: .default))
                     
-                
+                    
                     Text("This app will help you learn everyday!")
                         .font(Font.system(size: 17, weight: .regular, design: .default))
                         .foregroundColor(.secondary)
@@ -44,18 +43,17 @@ struct ContentView: View {
                     Text("I want to learn ")
                         .font(Font.system(size: 22, weight: .regular, design: .default))
                     
-                    
                     TextField("Swift", text: $goal)
                         .textFieldStyle(.roundedBorder)
                         .frame(width: 393, height: 48)
-                        
-                    Main(goal: $goal)
-                        
+                    
+                    //Main(goal: $goal)
+                    
                     
                     Text("I want to learn it in a")
                         .font(Font.system(size: 22, weight: .regular, design: .default))
-                        
-
+                    
+                    
                     HStack(spacing: 16) {
                         ForEach(["Week", "Month", "Year"], id: \.self) { duration in
                             Button(duration) {
@@ -72,35 +70,33 @@ struct ContentView: View {
                     
                 }//v
                 
+                Spacer()//Move the button to the very bottom 
                 
-                
-                
-                Spacer()
-                  
+                NavigationLink(destination: Main(goal: $goal)){
                 VStack{
                     Button ("Start learning"){
-//                        Main()
-                    }
-                        .frame(width: 182, height: 48)
-                        .background(Color.hOrange)
-                        .foregroundColor(.white)
-                        .cornerRadius(30)
-                        .glassEffect(.clear)
-                }//v
+                        
+                    }// Start Learning Button
+                    .disabled(goal.isEmpty)
+                    .frame(width: 182, height: 48)
+                    .background(Color.hOrange)
+                    .foregroundColor(.white)
+                    .cornerRadius(30)
+                    .glassEffect(.clear)
+                }//V for Start Learning Button
                 .frame(maxWidth: .infinity)
                 
+            }
                 
                 
-               
-            }//v
+            }//V for the whole page
             .padding()
             
             
-     
-        }
-    }
+            }//navigationStack
+        }// body
+    }//view
 
-            
 
 #Preview {
     ContentView()

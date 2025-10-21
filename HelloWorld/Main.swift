@@ -10,7 +10,7 @@ struct Main: View {
     @AppStorage("daysLearned") private var daysLearned: Int = 0
     @AppStorage("daysFreezed") private var daysFreezed: Int = 0
     @AppStorage("lastCheckedDate") private var lastCheckedDate: String = ""
-    @State private var isSelected: Bool  = false
+//    @State private var isSelected: Bool  = false
     @Binding var goal : String  //gets the binding from parent
 //    @State private var isOn: Bool = false
   
@@ -22,10 +22,11 @@ struct Main: View {
                         .strokeBorder(.ultraThinMaterial,lineWidth: 2)
                         .frame(width: 365, height: 254)
                     VStack{
+                        Text("\(goal)")
                         HStack(alignment: .center, spacing: 13){
                             
                             HStack{
-                                Text("\(goal)")
+                               
                                 Image(systemName: "flame.fill")
                                     .foregroundColor(Color.orange)
                                     .font(.system(size: 20))
@@ -156,6 +157,6 @@ struct Main: View {
     
 }
 #Preview{
-    ContentView()
+    Main(goal: .constant(""))
 }
 
