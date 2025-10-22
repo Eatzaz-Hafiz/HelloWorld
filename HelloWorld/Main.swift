@@ -10,9 +10,10 @@ struct Main: View {
     @AppStorage("daysLearned") private var daysLearned: Int = 0
     @AppStorage("daysFreezed") private var daysFreezed: Int = 0
     @AppStorage("lastCheckedDate") private var lastCheckedDate: String = ""
-//    @State private var isSelected: Bool  = false
+    @AppStorage("lastFreezedWeek") private var lastFreezedWeek: String = ""
+    @AppStorage("lastFreezedDate") private var lastFreezedDate: String = ""
+    @AppStorage("weeklyFreezeCount") private var weeklyFreezeCount: Int = 0
     @Binding var goal : String  //gets the binding from parent
-//    @State private var isOn: Bool = false
   
     var body: some View {
         NavigationStack{
@@ -21,8 +22,21 @@ struct Main: View {
                     RoundedRectangle(cornerRadius: 12)
                         .strokeBorder(.ultraThinMaterial,lineWidth: 2)
                         .frame(width: 365, height: 254)
-                    VStack{
+                    VStack(alignment: .leading){
+                        HStack{
+                            CalendarWeek()
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(width: 333, height: 78)
+                        .padding()
+                        
+                        
+                            Text("Today is:")
+                            .font(.system(size: 16))
+                            .fontWeight(.bold)
+                        
                         Text("\(goal)")
+                        
                         HStack(alignment: .center, spacing: 13){
                             
                             HStack{
@@ -47,7 +61,7 @@ struct Main: View {
                             
                             HStack{
                                 Image(systemName: "cube.fill")
-                                    .foregroundColor(Color.l)
+                                    .foregroundColor(Color.lightBlue)
                                     .font(.system(size: 20))
                                 VStack(alignment: .leading){
                                     Text("\(daysFreezed)")
@@ -63,11 +77,10 @@ struct Main: View {
                             .background(Color.darkBlue1)
                             .clipShape(Capsule())
                             
-                            
                         }//H for c and Day Freezed
                         .frame(maxWidth: .infinity)
                         .frame(width: 333, height: 69)
-                        
+                        .padding()
                         
                     }//v for the calender and stuff
                     
@@ -75,7 +88,7 @@ struct Main: View {
                     
                 }//z for calender and stuff
                 
-                
+                .padding()
                 //logged Button
                 Button(action: addDayOncePerDay ){
                     
@@ -88,18 +101,20 @@ struct Main: View {
                 .frame(width: 274, height: 274)
                 .background(canAddToday ? Color.hOrange : Color.logo)
                 .foregroundColor(Color.orange)
-//                .background(Color.hOrange )
+                .background(Color.hOrange )
                 .clipShape(Circle())
-                
                 .glassEffect(.clear)
 
                 Spacer()
-                Button("Log as Freezed"){
+                
+                Button(action: addFreezOncePerWeek ){
+                    Text("Log as Freezed")
                     
                 }//freezed button
+                .disabled(!canAddFreezedToday)
                 .frame(width: 274, height: 48)
                 .foregroundColor(.white)
-                .background(Color.hbule)
+                .background(canAddFreezedToday ? Color.hbule : Color.veryDarkBlue)
                 .cornerRadius(30)
                 .glassEffect()
                 
@@ -119,7 +134,7 @@ struct Main: View {
                 ToolbarSpacer()
                 
                 ToolbarItem(){
-                    Button("Calender",systemImage: "pencil.and.outline"){
+                    Button("",systemImage: "pencil.and.outline"){
                         
                     }//Edit Button
                     
@@ -139,6 +154,11 @@ struct Main: View {
         let today = formattedDate(Date())
         return lastCheckedDate != today
     }
+    private var canAddFreezedToday: Bool {
+        let today = formattedDate(Date())
+        return lastFreezedWeek  != today
+    }
+    
     
     // learned days counter function
     private func addDayOncePerDay() {
@@ -154,6 +174,34 @@ struct Main: View {
             formatter.dateFormat = "yyyy-MM-dd"
             return formatter.string(from: date)
         }
+    
+    private func formattedWeek(_ date: Date) -> String {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
+        return "\(components.yearForWeekOfYear!)-W\(components.weekOfYear!)"
+    }
+    
+    private func addFreezOncePerWeek() {
+        let currentWeek = formattedWeek(Date())
+        let today = formattedDate(Date())
+        
+        if lastFreezedWeek != currentWeek {
+                weeklyFreezeCount = 0
+            lastFreezedWeek = currentWeek
+            
+        }
+        
+        if weeklyFreezeCount < 2 && lastCheckedDate != today {
+            daysFreezed += 1
+            weeklyFreezeCount += 1
+            lastFreezedDate = today
+        }
+        else {
+            daysFreezed += 0
+        }
+    }
+    
+
     
 }
 #Preview{

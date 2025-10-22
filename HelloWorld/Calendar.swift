@@ -5,98 +5,12 @@
 ////  Created by Eatzaz Hafiz on 21/10/2025.
 ////
 //
-//import SwiftUI
-//
-//struct CalendarWeekView: View {
-//    private let calendar = Calendar.current //gives you the user’s current calendar (Gregorian for most users).
-//    private let today = Date() //urrent date and time (right now).
-//
-//    // Weekday letters for display: ["S", "M", ..., "S"]
-//    private let weekdaySymbols = Calendar.current.shortWeekdaySymbols
-//
-//    private var weekDates: [Date] {
-//        // Start from Sunday of current week
-//        let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today))!
-//        return (0..<7).compactMap { calendar.date(byAdding: .day, value: $0, to: startOfWeek) }
-//    }
-//
-//    var body: some View {
-//        VStack(alignment: .leading){
-////            NavigationLink(destination: CalendarPawup()) {
-//                HStack (spacing: -15){
-//                    Text("Your Calendar")
-//                        .font(.custom("GNF", size: 24))
-//                        .fontWeight(.bold)
-//                        .foregroundColor(.black)
-//                        .padding(.horizontal, 20)
-//                        .padding(.vertical, 15)
-//                    
-//                    Image("paly")
-//                        .resizable()
-//                        .frame(width: 28, height: 28)
-//                        
-//                }
-////            }
-//            HStack(spacing: 12) {
-//                ForEach(Array(weekDates.enumerated()), id: \.element) { index, date in
-//                    VStack(spacing: 6) {
-//                        // Weekday letter above each cell
-//                        Text(weekdayLetter(for: date))
-//                            .font(.system(size: 16))
-//                            .foregroundColor(.black)
-//                        
-//                        // Day content
-//                        let day = calendar.component(.day, from: date)
-//                        
-////                        if let did = WorkoutStore.get(on: date) {
-////                            DayCell(content: .image(did ? "Star" : "brokenheart"))
-////                        } else if isPast(date) {
-////                            DayCell(content: .image("brokenheart"))
-////                        } else {
-////                            DayCell(content: .number(day))
-////                        }
-//                    }
-//                }
-//            } .padding(.horizontal, 12)
-//        }
-//       
-//    }
-//
-//    private func isPast(_ date: Date) -> Bool {
-//        let today = calendar.startOfDay(for: Date())
-//        let target = calendar.startOfDay(for: date)
-//        return target < today
-//    }
-//
-//    private func weekdayLetter(for date: Date) -> String {
-//        let index = calendar.component(.weekday, from: date) - 1
-//        // Make sure it's in bounds
-//        return (0..<7).contains(index) ? String(weekdaySymbols[index].prefix(1)) : ""
-//    }
-//}
-//
-//#Preview {
-//    CalendarWeekView()
-//}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 import SwiftUI
 
-struct CalendarWeekView: View {
+struct CalendarWeek: View {
     
     private let calendar = Calendar.current
     private let today = Date()
@@ -117,15 +31,28 @@ struct CalendarWeekView: View {
         
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack(spacing: 8) {
+            HStack {
                 Button ("\(monthYear)"){ }
+                    .font(.system(size: 20))
                 .foregroundColor(Color.white)
                 
+                Image(systemName: "chevron.right")
+                    .foregroundColor(Color.orange)
+                    .font(.system(size: 15))
                 
-                Image(systemName: "calendar")
+                Spacer()
+                
+                Button("",systemImage: "chevron.left"){ }
+                    .foregroundColor(Color.orange)
+                    .font(.system(size: 20))
+                
+                Button("",systemImage: "chevron.right"){ }
+                    .foregroundColor(Color.orange)
+                    .font(.system(size: 20))
+                                
             }
 
-            HStack(spacing: 12) {
+            HStack(spacing: 5) {
                 ForEach(weekDates, id: \.self) { date in
                     VStack(spacing: 8) {
                         // Weekday (above circle)
@@ -154,5 +81,140 @@ struct CalendarWeekView: View {
 }
 
 #Preview {
-    CalendarWeekView()
+    CalendarWeek()
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//import SwiftUI
+//
+//struct CalendarWeek: View {
+//    
+//    private let calendar = Calendar.current
+//    private let today = Date()
+//    private let weekdaySymbols = Calendar.current.shortWeekdaySymbols
+//
+//    @State private var showFullCalendar = false
+//    
+//    private var weekDates: [Date] {
+//        let startOfWeek = calendar.date(
+//            from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today)
+//        )!
+//        return (0..<7).compactMap { calendar.date(byAdding: .day, value: $0, to: startOfWeek) }
+//    }
+//    
+//    private var monthYear: String {
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "MMMM yyyy"
+//        return formatter.string(from: today)
+//    }
+//        
+//    var body: some View {
+//        VStack(alignment: .leading, spacing: 16) {
+//            
+//            // Month title + toggle
+//            HStack(spacing: 8) {
+//                Button {
+//                    withAnimation(.spring()) {
+//                        showFullCalendar.toggle()
+//                    }
+//                } label: {
+//                    HStack {
+//                        Text(monthYear)
+//                            .font(.system(size: 20, weight: .bold))
+//                            .foregroundColor(.white)
+//                        Image(systemName: showFullCalendar ? "chevron.right" : "chevron.right")
+//                            .foregroundColor(.white)
+//                            .font(.system(size: 14))
+//                    }
+//                }
+//            }
+//
+//            // One-week calendar (always visible)
+//            HStack(spacing: 5) {
+//                ForEach(weekDates, id: \.self) { date in
+//                    VStack(spacing: 8) {
+//                        Text(weekdayLetter(for: date))
+//                            .font(.system(size: 14, weight: .bold))
+//                            .foregroundColor(.gray)
+//                        Text("\(calendar.component(.day, from: date))")
+//                            .font(.headline)
+//                            .foregroundColor(.white)
+//                            .frame(width: 44, height: 44)
+//                            .background(Color.orange)
+//                            .cornerRadius(22)
+//                    }
+//                }
+//            }
+//            
+//            // Full calendar (shows only when button clicked)
+////            if showFullCalendar {
+////                FullCalendarView(today: today)
+////                    .transition(.opacity.combined(with: .slide))
+////            }
+//        }
+//        .padding()
+//        .background(Color.black)
+//    }
+//
+//    private func weekdayLetter(for date: Date) -> String {
+//        let index = calendar.component(.weekday, from: date) - 1
+//        return String(weekdaySymbols[index].prefix(3).uppercased())
+//    }
+//}
+//
+//// MARK: - Full Calendar View (inside same file)
+////struct FullCalendarView: View {
+////    let today: Date
+////    private let calendar = Calendar.current
+////    
+////    private var startOfMonth: Date {
+////        calendar.date(from: calendar.dateComponents([.year, .month], from: today))!
+////    }
+////    
+////    private var daysInMonth: [Date] {
+////        guard let range = calendar.range(of: .day, in: .month, for: today) else { return [] }
+////        return range.compactMap { day in
+////            calendar.date(byAdding: .day, value: day - 1, to: startOfMonth)
+////        }
+////    }
+////    
+////    private var weeks: [[Date]] {
+////        stride(from: 0, to: daysInMonth.count, by: 7).map {
+////            Array(daysInMonth.dropFirst($0).prefix(7))
+////        }
+////    }
+////    
+////    var body: some View {
+////        VStack(spacing: 8) {
+////            ForEach(weeks, id: \.self) { week in
+////                HStack(spacing: 5) {
+////                    ForEach(week, id: \.self) { date in
+////                        Text("\(calendar.component(.day, from: date))")
+////                            .font(.subheadline)
+////                            .foregroundColor(.white)
+////                            .frame(width: 35, height: 35)
+////                            .background(calendar.isDateInToday(date) ? Color.orange : Color.gray.opacity(0.4))
+////                            .cornerRadius(18)
+////                    }
+////                }
+////            }
+////        }
+////        .padding(.top, 8)
+////    }
+////}
+//
+//#Preview {
+//    CalendarWeek()
+//}
