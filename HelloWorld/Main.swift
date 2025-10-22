@@ -13,19 +13,20 @@ struct Main: View {
     @AppStorage("lastFreezedWeek") private var lastFreezedWeek: String = ""
     @AppStorage("lastFreezedDate") private var lastFreezedDate: String = ""
     @AppStorage("weeklyFreezeCount") private var weeklyFreezeCount: Int = 0
+    @State private var isFreezedToday : Bool = false
     @Binding var goal : String  //gets the binding from parent
   
     var body: some View {
         NavigationStack{
-            VStack{
+            VStack (spacing: 24){
                 ZStack{
                     RoundedRectangle(cornerRadius: 12)
                         .strokeBorder(.ultraThinMaterial,lineWidth: 2)
                         .frame(width: 365, height: 254)
-                    VStack(alignment: .leading){
-                        HStack{
-                            CalendarWeek()
-                        }
+                    
+                    VStack( spacing: 12){
+                        
+                        CalendarWeek()
                         .frame(maxWidth: .infinity)
                         .frame(width: 333, height: 78)
                         .padding()
@@ -34,8 +35,10 @@ struct Main: View {
                             Text("Today is:")
                             .font(.system(size: 16))
                             .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding(6)
                         
-                        Text("\(goal)")
+//                        Text("\(goal)")
                         
                         HStack(alignment: .center, spacing: 13){
                             
@@ -88,18 +91,18 @@ struct Main: View {
                     
                 }//z for calender and stuff
                 
-                .padding()
                 //logged Button
                 Button(action: addDayOncePerDay ){
                     
-                    Text(canAddToday ? "Log as Learned" :"Learned Today")
+                    Text(isFreezedToday ? "Day Freezed" : (canAddToday ? "Log as Learned" :"Learned Today"))
                         .font(.system(size: 36, weight: .bold))
-                        .foregroundColor(canAddToday ? .white : .orange)
-                }//Log as Learned button
-                .disabled(!canAddToday)
+                        .foregroundColor(isFreezedToday ? Color.lightBlue : (canAddToday ? .white : .orange))
+                }
+                //Log as Learned button
+                .disabled( alreadyUsedToday )
                 .padding()
                 .frame(width: 274, height: 274)
-                .background(canAddToday ? Color.hOrange : Color.logo)
+                .background(isFreezedToday ? Color.veryDarkBlue : (canAddToday ? Color.hOrange : Color.logo))
                 .foregroundColor(Color.orange)
                 .background(Color.hOrange )
                 .clipShape(Circle())
@@ -111,14 +114,14 @@ struct Main: View {
                     Text("Log as Freezed")
                     
                 }//freezed button
-                .disabled(!canAddFreezedToday)
+                .disabled(!canAddFreezedToday || alreadyUsedToday)
                 .frame(width: 274, height: 48)
                 .foregroundColor(.white)
-                .background(canAddFreezedToday ? Color.hbule : Color.veryDarkBlue)
+                .background(alreadyUsedToday ? Color.veryDarkBlue : (canAddFreezedToday ? Color.hbule : Color.veryDarkBlue))
                 .cornerRadius(30)
                 .glassEffect()
                 
-                Text("1 out of 2 Freezes used ")
+                Text("\(weeklyFreezeCount) out of 2 Freezes used ")
                     .font(Font.system(size: 14))
                     .foregroundColor(.gray)
                 
@@ -156,14 +159,14 @@ struct Main: View {
     }
     private var canAddFreezedToday: Bool {
         let today = formattedDate(Date())
-        return lastFreezedWeek  != today
+        return lastFreezedWeek  != today && weeklyFreezeCount < 2
     }
     
     
     // learned days counter function
     private func addDayOncePerDay() {
         let today = formattedDate(Date())
-        if lastCheckedDate != today {
+        if !alreadyUsedToday {
             daysLearned += 1
             lastCheckedDate = today
         }
@@ -188,17 +191,23 @@ struct Main: View {
         if lastFreezedWeek != currentWeek {
                 weeklyFreezeCount = 0
             lastFreezedWeek = currentWeek
-            
+
         }
         
-        if weeklyFreezeCount < 2 && lastCheckedDate != today {
+        if weeklyFreezeCount < 2 && !alreadyUsedToday     {
             daysFreezed += 1
             weeklyFreezeCount += 1
             lastFreezedDate = today
+            isFreezedToday = true
         }
         else {
             daysFreezed += 0
         }
+    }
+    
+    private var alreadyUsedToday: Bool {
+        let today = formattedDate(Date())
+        return lastCheckedDate == today || lastFreezedDate == today
     }
     
 
