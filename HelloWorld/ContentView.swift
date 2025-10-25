@@ -95,7 +95,7 @@ struct ContentView: View {
             
             }//navigationStack
         }// body
-    }//view
+    }//struct view
 
 
 #Preview {

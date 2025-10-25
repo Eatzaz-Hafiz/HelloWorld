@@ -15,7 +15,10 @@ struct Main: View {
     @AppStorage("weeklyFreezeCount") private var weeklyFreezeCount: Int = 0
     @State private var isFreezedToday : Bool = false
     @Binding var goal : String  //gets the binding from parent
-  
+    @AppStorage("learnedDates") private var learnedDatesString: String = ""
+    @AppStorage("freezedDates") private var freezedDatesString: String = ""
+    
+      
     var body: some View {
         NavigationStack{
             VStack (spacing: 24){
@@ -26,7 +29,7 @@ struct Main: View {
                     
                     VStack( spacing: 12){
                         
-                        CalendarWeek()
+                        CalendarWeek(learnedDates: learnedDates, freezedDates: freezedDates)
                         .frame(maxWidth: .infinity)
                         .frame(width: 333, height: 78)
                         .padding()
@@ -169,6 +172,7 @@ struct Main: View {
         if !alreadyUsedToday {
             daysLearned += 1
             lastCheckedDate = today
+            learnedDatesString += (learnedDatesString.isEmpty ? "" : ",") + today
         }
     }
     
@@ -191,7 +195,7 @@ struct Main: View {
         if lastFreezedWeek != currentWeek {
                 weeklyFreezeCount = 0
             lastFreezedWeek = currentWeek
-
+            freezedDatesString += (freezedDatesString.isEmpty ? "" : ",") + today
         }
         
         if weeklyFreezeCount < 2 && !alreadyUsedToday     {
@@ -210,7 +214,29 @@ struct Main: View {
         return lastCheckedDate == today || lastFreezedDate == today
     }
     
+    
+    private var learnedDates: [String] {
+        var result: [String] = []
+        let learnedCount = daysLearned
+        let today = formattedDate(Date())
+        
+        // Add the last learned date
+        if daysLearned > 0 {
+            result.append(lastCheckedDate)
+        }
+        return result
+    }
 
+    private var freezedDates: [String] {
+        var result: [String] = []
+        if daysFreezed > 0 {
+            result.append(lastFreezedDate)
+        }
+        return result
+    }
+    
+    
+    
     
 }
 #Preview{
