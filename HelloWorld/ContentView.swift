@@ -29,6 +29,7 @@ struct ContentView: View {
                 }
                 
                 .frame(maxWidth: .infinity)
+                .padding()
                 
                 VStack(alignment: .leading) {
                     
@@ -40,15 +41,14 @@ struct ContentView: View {
                         .font(Font.system(size: 17, weight: .regular, design: .default))
                         .foregroundColor(.secondary)
                     
+                    Spacer().frame(height: 31)
+                    
                     Text("I want to learn ")
                         .font(Font.system(size: 22, weight: .regular, design: .default))
                     
                     TextField("Swift", text: $goal)
                         .textFieldStyle(.roundedBorder)
                         .frame(width: 393, height: 48)
-                    
-                    //Main(goal: $goal)
-                    
                     
                     Text("I want to learn it in a")
                         .font(Font.system(size: 22, weight: .regular, design: .default))

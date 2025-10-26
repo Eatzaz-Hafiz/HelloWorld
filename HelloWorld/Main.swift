@@ -141,14 +141,14 @@ struct Main: View {
                 ToolbarSpacer()
                 
                 ToolbarItem(){
-                    NavigationLink(destination: ContentView()) {
+                    NavigationLink(destination: UpdateLearningGgoal()) {
                                 Label("Edit", systemImage: "pencil.and.outline")
                             }//Edit Button
                     
                 }//toolbaritem
                 
                 
-            }//v
+            }//.toolbar 
             
             
         }//navigationstack
