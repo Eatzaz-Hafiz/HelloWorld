@@ -190,12 +190,18 @@ struct ScrollingCalendarView: View {
     @StateObject private var viewModel = CalendarViewModel()
     @Environment(\.presentationMode) private var presentationMode
 
+    var learnedDates: [String]
+    var freezedDates: [String]
+
     var body: some View {
         NavigationStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
                     ForEach(Array(viewModel.months.enumerated()), id: \.offset) { (_, monthStart) in
-                        CalendarMonthView(viewModel: viewModel, monthStart: monthStart)
+                        CalendarMonthView(viewModel: viewModel,
+                                          monthStart: monthStart,
+                                          learnedDates: learnedDates,
+                                          freezedDates: freezedDates)
                             .frame(width: 338)
 
                         Spacer().frame(height: 8)
@@ -228,6 +234,8 @@ struct ScrollingCalendarView: View {
 struct CalendarMonthView: View {
     let viewModel: CalendarViewModel
     let monthStart: Date
+    let learnedDates: [String]
+    let freezedDates: [String]
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -240,9 +248,13 @@ struct CalendarMonthView: View {
 
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 10) {
                 ForEach(viewModel.daysInMonth(from: monthStart), id: \.self) { date in
-                    CalendarDayView(viewModel: viewModel, date: date)
+                    CalendarDayView(viewModel: viewModel,
+                                    date: date,
+                                    learnedDates: learnedDates,
+                                    freezedDates: freezedDates)
                 }
             }
+            
         }
     }
 }
@@ -265,6 +277,8 @@ struct CalendarWeekHeaderView: View {
 struct CalendarDayView: View {
     let viewModel: CalendarViewModel
     let date: Date
+    let learnedDates: [String]
+    let freezedDates: [String]
 
     var body: some View {
         if viewModel.isPlaceholder(date) {
@@ -274,16 +288,57 @@ struct CalendarDayView: View {
             ZStack {
                 Circle()
                     .frame(width: 40, height: 40)
-                    .foregroundStyle(Color.orange.opacity(0.2))
+                    .foregroundStyle(colorForDate(date))
 
                 Text("\(viewModel.dayNumber(from: date))")
                     .font(.system(size: 24, weight: .medium))
-                    .foregroundStyle(Color.orange)
-                    .padding(1)
+                    .foregroundStyle(textColor(for: date))
             }
         }
     }
+    
+    // MARK: - Helpers
+        private func formattedDate(_ date: Date) -> String {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            return formatter.string(from: date)
+        }
+
+    private func colorForDate(_ date: Date) -> Color {
+        let dateString = formattedDate(date)
+        let calendar = Calendar.current
+
+        if calendar.isDateInToday(date) {
+            return .orange
+        } else if learnedDates.contains(dateString) {
+            return Color.orange.opacity(0.3)
+        } else if freezedDates.contains(dateString) {
+            return .darkBlue1
+        } else {
+            // Other / skipped days = transparent background
+            return .clear
+        }
+    }
+
+    private func textColor(for date: Date) -> Color {
+        let dateString = formattedDate(date)
+        let calendar = Calendar.current
+
+        if calendar.isDateInToday(date) {
+            return .white
+        } else if learnedDates.contains(dateString) {
+            return .orange
+        } else if freezedDates.contains(dateString) {
+            return .blue
+        } else {
+            // Other / skipped days = gray or dimmed
+            return .white
+        }
+    }
+    
 }
+
+
 
 
 
@@ -302,7 +357,7 @@ struct MonthYearPicker: View {
                     calendar.component(.month, from: selectedDate) - 1
                 },
                 set: { monthIndex in
-                    updateDate(month: monthIndex + 1,
+                    updateDate(month: monthIndex + 2,
                                year: calendar.component(.year, from: selectedDate))
                 }
             )) {
@@ -342,4 +397,3 @@ struct MonthYearPicker: View {
         }
     }
 }
-

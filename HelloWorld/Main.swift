@@ -41,6 +41,7 @@ struct Main: View {
                             .foregroundColor(.white)
                             .padding(6)
                         
+                        
 //                        Text("\(goal)")
                         
                         HStack(alignment: .center, spacing: 13){
@@ -97,7 +98,7 @@ struct Main: View {
                 //logged Button
                 Button(action: addDayOncePerDay ){
                     
-                    Text(isFreezedToday ? "Day Freezed" : (canAddToday ? "Log as Learned" :"Learned Today"))
+                    Text(isFreezedToday ? "Day  Freezed" : (canAddToday ? "Log as Learned" :"Learned  Today"))
                         .font(.system(size: 36, weight: .bold))
                         .foregroundColor(isFreezedToday ? Color.lightBlue : (canAddToday ? .white : .orange))
                 }
@@ -133,23 +134,23 @@ struct Main: View {
             .toolbarTitleDisplayMode(.inlineLarge)
             .toolbar{
                 ToolbarItem(){
-                    Button("Calender",systemImage: "calendar"){
-                        
-                    }//calender Button
+                    NavigationLink(destination: ScrollingCalendarView(learnedDates: learnedDates, freezedDates: freezedDates)){
+                                Label("Calendar", systemImage: "calendar")
+                            }//calender Button
                 }//toolbaritem
                 ToolbarSpacer()
                 
                 ToolbarItem(){
-                    Button("",systemImage: "pencil.and.outline"){
-                        
-                    }//Edit Button
+                    NavigationLink(destination: ContentView()) {
+                                Label("Edit", systemImage: "pencil.and.outline")
+                            }//Edit Button
                     
                 }//toolbaritem
                 
                 
             }//v
-                
-                
+            
+            
         }//navigationstack
         
     }//body
@@ -216,25 +217,16 @@ struct Main: View {
     
     
     private var learnedDates: [String] {
-        var result: [String] = []
-        let learnedCount = daysLearned
-        let today = formattedDate(Date())
-        
-        // Add the last learned date
-        if daysLearned > 0 {
-            result.append(lastCheckedDate)
-        }
-        return result
+        learnedDatesString
+            .split(separator: ",")
+            .map { String($0) }
     }
 
     private var freezedDates: [String] {
-        var result: [String] = []
-        if daysFreezed > 0 {
-            result.append(lastFreezedDate)
-        }
-        return result
+        freezedDatesString
+            .split(separator: ",")
+            .map { String($0) }
     }
-    
     
     
     
