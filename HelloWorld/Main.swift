@@ -34,15 +34,11 @@ struct Main: View {
                         .frame(width: 333, height: 78)
                         .padding()
                         
-                        
-                            Text("Today is:")
+                        Text("Learning \(goal)")
                             .font(.system(size: 16))
                             .fontWeight(.bold)
                             .foregroundColor(.white)
-                            .padding(6)
-                        
-                        
-//                        Text("\(goal)")
+                            .frame(maxWidth: 345, alignment: .leading)
                         
                         HStack(alignment: .center, spacing: 13){
                             
@@ -141,7 +137,7 @@ struct Main: View {
                 ToolbarSpacer()
                 
                 ToolbarItem(){
-                    NavigationLink(destination: UpdateLearningGgoal()) {
+                    NavigationLink(destination: UpdateLearningGgoal(goal: .constant(""))) {
                                 Label("Edit", systemImage: "pencil.and.outline")
                             }//Edit Button
                     

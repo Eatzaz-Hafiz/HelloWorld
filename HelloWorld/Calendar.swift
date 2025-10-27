@@ -62,26 +62,40 @@ struct CalendarWeek: View {
                         .font(.system(size: 20))
                 }
                 
-                Button(action: { changeWeek(by: 1) }) {
-                    Image(systemName: "chevron.right")
-                        .foregroundColor(.orange)
-                        .font(.system(size: 20))
-                }
+                Button(action: {
+                        withAnimation {
+                            showFullCalendar.toggle()
+                        }
+                    }) {
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.orange)
+                            .font(.system(size: 20))
+                    }
+                
+                
             }// H for monthYear and left, right chevron
             
             if showFullCalendar {
-                MonthYearPicker(selectedDate: $selectedDate)
-                    .frame(height: 150)
-                    .transition(.opacity.combined(with: .move(edge: .top)))
-                    .onChange(of: selectedDate) { newDate in
-                        let components = Calendar.current.dateComponents([.year, .month], from: newDate)
-                        if let firstOfMonth = Calendar.current.date(from: components) {
-                            currentWeekStart = Calendar.current.startOfWeek(for: firstOfMonth)
-                        }
-                        withAnimation {
-                            showFullCalendar = false
-                        }
+                VStack {
+                    MonthYearPicker(selectedDate: $selectedDate)
+                        .frame(height: 150)
+                        .padding()
+                }
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color(.systemGray6).opacity(0.2))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .strokeBorder(.ultraThinMaterial,lineWidth: 2)                        )
+                )
+                .padding(.horizontal)
+                .onChange(of: selectedDate) { newDate in
+                    let components = Calendar.current.dateComponents([.year, .month], from: newDate)
+                    if let firstOfMonth = Calendar.current.date(from: components) {
+                        currentWeekStart = Calendar.current.startOfWeek(for: firstOfMonth)
                     }
+                    showFullCalendar = false
+                }
             }
             
             // MARK: Week days
@@ -117,7 +131,9 @@ struct CalendarWeek: View {
     private func isToday(_ date: Date) -> Bool {
         calendar.isDateInToday(date)
     }
-
+    
+    
+    //one row calendar
     private func colorForDate(_ date: Date) -> Color {
         let dateString = formattedDate(date)
 
@@ -134,7 +150,7 @@ struct CalendarWeek: View {
             return .clear // other days
         }
     }
-    
+    //one row calendar
     private func textColor(for date: Date) -> Color {
         let dateString = formattedDate(date)
         
@@ -145,7 +161,7 @@ struct CalendarWeek: View {
             return .orange // learned
         }
         else if freezedDates.contains(dateString) {
-            return.blue // freezed
+            return.lightBlue // freezed
         }
         else {
             return .orange
@@ -303,7 +319,7 @@ struct CalendarDayView: View {
             formatter.dateFormat = "yyyy-MM-dd"
             return formatter.string(from: date)
         }
-
+    
     private func colorForDate(_ date: Date) -> Color {
         let dateString = formattedDate(date)
         let calendar = Calendar.current
@@ -315,11 +331,11 @@ struct CalendarDayView: View {
         } else if freezedDates.contains(dateString) {
             return .darkBlue1
         } else {
-            // Other / skipped days = transparent background
+            
             return .clear
         }
     }
-
+    //
     private func textColor(for date: Date) -> Color {
         let dateString = formattedDate(date)
         let calendar = Calendar.current
@@ -329,9 +345,9 @@ struct CalendarDayView: View {
         } else if learnedDates.contains(dateString) {
             return .orange
         } else if freezedDates.contains(dateString) {
-            return .blue
+            return .lightBlue
         } else {
-            // Other / skipped days = gray or dimmed
+            // Other / skipped days
             return .white
         }
     }

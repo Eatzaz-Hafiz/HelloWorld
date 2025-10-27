@@ -57,6 +57,7 @@ struct ContentView: View {
                     HStack(spacing: 16) {
                         ForEach(["Week", "Month", "Year"], id: \.self) { duration in
                             Button(duration) {
+                                
                                 selectedDuration = duration
                             }
                             .frame(width: 97, height: 48)
@@ -77,7 +78,7 @@ struct ContentView: View {
                     Button ("Start learning"){
                         
                     }// Start Learning Button
-                    .disabled(goal.isEmpty)
+                    .disabled(!goal.isEmpty)
                     .frame(width: 182, height: 48)
                     .background(Color.hOrange)
                     .foregroundColor(.white)

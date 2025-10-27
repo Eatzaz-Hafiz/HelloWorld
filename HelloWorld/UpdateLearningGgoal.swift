@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct UpdateLearningGgoal: View {
-    @State private var goal = ""
+    @Binding var goal : String  //gets the binding from parent
     @State private var selectedDuration: String = "Week"
+    @State private var showAlert = false
     
     var body: some View {
         NavigationView{
@@ -45,26 +46,42 @@ struct UpdateLearningGgoal: View {
             }//v
             
             
+            
         .toolbar {
             ToolbarSpacer()
-                    ToolbarItem(placement: .principal){
-
-                        Text("Learning Goal")
-                            .font(.system(size: 24))
-                            
-                        }
-            ToolbarItem(placement: .navigationBarTrailing){
+            ToolbarItem(placement: .principal){
                 
-                Image(systemName: "checkmark")
-                    .background(.orange)
-                    .clipShape(Circle())
-                    
+                
+                
+                Text("Learning Goal")
+                    .font(.system(size: 24))
+                
             }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button {
+                                    showAlert = true
+                                } label: {
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(.white)
+                                        .padding(8)
+                                        .background(Color.orange)
+                                        .glassEffect()
+                                }
+                            }
+                        }
+        .alert("Update Learning Goal", isPresented: $showAlert) {
+                        Button("Dismiss", role: .cancel) { }
+                        Button("Update", role: .destructive) {
+                            
+                        }.foregroundColor(.white)
+                    } message: {
+                        Text("If you update now, your streak will start over.")
                     }
+                
         }// NavigationView
     }
 }
 
 #Preview {
-    UpdateLearningGgoal()
+    UpdateLearningGgoal(goal:.constant (""))
 }
