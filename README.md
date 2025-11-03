@@ -8,13 +8,13 @@ It lets you track your daily learning progress, build streaks, and take “freez
 
 ## 🧭 Table of Contents
 
-- [Overview]
-- [Features]
-- [Architecture]
-- [Screens Overview](#screens-overview)
-- [Tech Stack](#tech-stack)
-- [Installation](#installation)
-- [Future Improvements](#future-improvements)
+- Overview
+- Features
+- Architecture
+- Screens Overview
+- Tech Stack
+- Installation
+- Future Improvements
 
 ---
 
@@ -70,13 +70,12 @@ Right now, most of the logic is handled directly within the SwiftUI views, and I
 
 ## 📱 Screens Overview
 
-- **Onboarding Screen:** Set your subject and goal duration.
- <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2025-11-03 at 18 30 52" src="https://github.com/user-attachments/assets/6627be6b-9085-4bcf-b46c-2b93a8dc1b2e" />
-- **Activity Screen:** Track daily learning and view streak progress.
-   <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2025-11-03 at 18 31 46" src="https://github.com/user-attachments/assets/539cc60a-e0f3-4075-b066-d3461fb04dc0" />
-- **Calendar Screen:** Visual representation of your learning and freeze days.
-<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2025-11-03 at 18 32 56" src="https://github.com/user-attachments/assets/e3962454-e927-4d65-a93d-3a8b4f455197" />
-
+<p align="center">
+  <b>📱 App Screenshots</b><br><br>
+  <img src="https://github.com/user-attachments/assets/6627be6b-9085-4bcf-b46c-2b93a8dc1b2e" width="250" />
+  <img src="https://github.com/user-attachments/assets/539cc60a-e0f3-4075-b066-d3461fb04dc0" width="250" />
+  <img src="https://github.com/user-attachments/assets/e3962454-e927-4d65-a93d-3a8b4f455197" width="250" />
+</p>
 ---
 
 ## 🧠 Tech Stack
