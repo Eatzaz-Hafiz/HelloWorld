@@ -71,11 +71,11 @@ Right now, most of the logic is handled directly within the SwiftUI views, and I
 ## 📱 Screens Overview
 
 <p align="center">
-  <b>📱 App Screenshots</b><br><br>
   <img src="https://github.com/user-attachments/assets/6627be6b-9085-4bcf-b46c-2b93a8dc1b2e" width="250" />
   <img src="https://github.com/user-attachments/assets/539cc60a-e0f3-4075-b066-d3461fb04dc0" width="250" />
   <img src="https://github.com/user-attachments/assets/e3962454-e927-4d65-a93d-3a8b4f455197" width="250" />
 </p>
+
 ---
 
 ## 🧠 Tech Stack
