@@ -8,9 +8,9 @@ It lets you track your daily learning progress, build streaks, and take “freez
 
 ## 🧭 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Architecture](#architecture)
+- [Overview]
+- [Features]
+- [Architecture]
 - [Screens Overview](#screens-overview)
 - [Tech Stack](#tech-stack)
 - [Installation](#installation)
@@ -41,13 +41,20 @@ In progress:
 
 ## 🧩 Architecture
 
-The app follows the **MVVM (Model–View–ViewModel)** structure for clean and organized code.
+The app is **not fully following MVVM yet**, but it’s designed with that structure in mind for future updates.  
+Right now, most of the logic is handled directly within the SwiftUI views, and I plan to gradually refactor it into proper models and view models later on.
 
-**Model:**  
+### Current Structure:
+- SwiftUI views handle most of the logic and state management.
+- Data is stored using `@AppStorage` and `@State` properties.
+- Simple models are used for tracking user progress and freeze days.
+
+### Planned Refactor (MVVM):
+**Model (planned):**  
 - `LearnerModel.swift`  
 - `DayModel.swift`
 
-**ViewModel:**  
+**ViewModel (planned):**  
 - `OnboardingViewModel.swift`  
 - `ActivityViewModel.swift`  
 - `CalendarModel.swift`
@@ -56,19 +63,19 @@ The app follows the **MVVM (Model–View–ViewModel)** structure for clean and 
 - `OnboardingView.swift`  
 - `ActivityView.swift`  
 - `CalendarView.swift`  
-- `CompactCalendarView.swift`  
-- `MonthlyCalendarView.swift`  
-- `WeeklyCalendarView.swift`  
-- `StreakFreezeView.swift`
+- `GoalCompletedView.swift`
+- `UpdateLearningGgoalView.swift`
 
 ---
 
 ## 📱 Screens Overview
 
 - **Onboarding Screen:** Set your subject and goal duration.
-- 
-- **Activity Screen:** Track daily learning and view streak progress.  
+ <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2025-11-03 at 18 30 52" src="https://github.com/user-attachments/assets/6627be6b-9085-4bcf-b46c-2b93a8dc1b2e" />
+- **Activity Screen:** Track daily learning and view streak progress.
+   <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2025-11-03 at 18 31 46" src="https://github.com/user-attachments/assets/539cc60a-e0f3-4075-b066-d3461fb04dc0" />
 - **Calendar Screen:** Visual representation of your learning and freeze days.
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2025-11-03 at 18 32 56" src="https://github.com/user-attachments/assets/e3962454-e927-4d65-a93d-3a8b4f455197" />
 
 ---
 
@@ -76,8 +83,8 @@ The app follows the **MVVM (Model–View–ViewModel)** structure for clean and 
 
 - **Language:** Swift  
 - **Frameworks:** SwiftUI, Foundation, Combine  
-- **Architecture:** MVVM  
-- **Data Storage (in progress):** UserDefaults + Codable  
+- **Architecture (in progress):** MVVM  
+- **Data Storage:** UserDefaults + Codable  
 - **Requirements:** iOS 17+ / Xcode 15+
 
 ---
